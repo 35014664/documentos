@@ -9,7 +9,7 @@ header{background:var(--navy);color:#fff;text-align:center;padding:2rem 1rem}
 header img{width:120px;background:#fff;border-radius:12px;padding:6px}
 header h1{margin:.6rem 0 .2rem;font-size:1.9rem}header p{margin:.1rem;opacity:.85;text-align:center}
 .wrap{display:flex;gap:1.5rem;max-width:1250px;margin:0 auto;padding:1rem}
-nav{flex:0 0 300px;position:sticky;top:.5rem;align-self:flex-start;max-height:96vh;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:.7rem}
+nav{flex:0 0 300px;position:sticky;top:4.6rem;align-self:flex-start;max-height:calc(100vh - 5.2rem);overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:.7rem}
 nav input{width:100%;padding:.5rem;border:1px solid var(--line);border-radius:6px;margin-bottom:.5rem;font:inherit}
 nav a{display:block;text-decoration:none;color:var(--navy);padding:.18rem .3rem;border-radius:4px;font-size:.86rem;line-height:1.3}
 nav a.l1{font-weight:700;margin-top:.4rem}nav a.l2{padding-left:1rem;color:var(--blue)}nav a:hover{background:#eef1f6}
@@ -23,20 +23,28 @@ table{border-collapse:collapse;width:100%;font-size:.88rem}
 th{background:var(--navy);color:#fff;padding:.45rem .6rem;text-align:center}
 td{border:1px solid var(--line);padding:.4rem .6rem;vertical-align:top;text-align:justify}
 tbody tr:nth-child(even){background:#f2f4f8}
-nav .sb{display:flex;gap:.3rem;align-items:center;margin-bottom:.5rem}nav .sb input{margin:0;flex:1}
-nav .sb button{border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:6px;padding:.3rem .5rem;cursor:pointer;font:inherit;line-height:1}
-nav .sb button:hover{background:#eef1f6}#cnt{font-size:.8rem;color:var(--blue);margin:-.2rem 0 .5rem;min-height:1.1em}
 mark.hit{background:#ffe58a;color:inherit;padding:0 1px;border-radius:2px}mark.hit.cur{background:#f5a623;outline:2px solid #c77d00}
 .pdfbtn{display:inline-block;margin-top:.8rem;padding:.35rem .8rem;border:1px solid #fff;border-radius:6px;color:#fff;text-decoration:none;font:.85rem/1.2 Georgia,serif;opacity:.9}
 .pdfbtn:hover{background:#fff;color:var(--navy);opacity:1}
-@media print{.pdfbtn,#cnt,.sb{display:none}mark.hit{background:none}}
+@media print{.pdfbtn,.searchbar{display:none}mark.hit{background:none}}
+.searchbar{position:sticky;top:0;z-index:30;background:var(--bg);padding:.6rem 1rem}
+.searchbar .in{max-width:1250px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:14px;padding:.6rem 1rem;display:flex;align-items:center;gap:.9rem;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.searchbar .fld{position:relative;flex:1;min-width:0}
+.searchbar .fld svg{position:absolute;left:.9rem;top:50%;transform:translateY(-50%);pointer-events:none}
+.searchbar input{width:100%;padding:.55rem 2.2rem .55rem 2.7rem;border:2px solid var(--blue);border-radius:999px;font:inherit;outline:none}
+.searchbar input:focus{box-shadow:0 0 0 3px rgba(59,88,120,.25)}
+#cnt{font-size:.85rem;color:var(--blue);white-space:nowrap;margin:0;min-height:0}
+.searchbar button{width:34px;height:34px;border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:50%;cursor:pointer;font:1rem/1 Arial,sans-serif;padding:0}
+.searchbar button:hover{background:#eef1f6}
+h2,h3{scroll-margin-top:5rem}
+@media(max-width:860px){.searchbar .in{flex-wrap:wrap}.searchbar .fld{flex:1 0 100%}#cnt{flex:1;white-space:normal}}
 footer{text-align:center;color:#667;font-size:.85rem;padding:1.5rem}
 @media(max-width:860px){.wrap{flex-direction:column}nav{position:static;flex:none;width:100%;max-height:260px}main{padding:1rem}}
 @media print{nav,header img{display:none}.wrap{display:block}}
 </style></head><body>
 <header><img src="https://www3.gobiernodecanarias.org/medusa/edublog/cifpvilladeaguimes/wp-content/uploads/sites/706/2024/01/cropped-logovilla250.png" alt="Logotipo del CIFP Villa de Agüimes">
-<h1>Plan Anual · Curso 2026–2027</h1><p>CIFP Villa de Agüimes</p><p>Consejería de Educación, Formación Profesional, Actividad Física y Deportes</p><a class="pdfbtn" href="#" onclick="window.print();return false" title="Se abrirá el diálogo de impresión: elige Guardar como PDF">⬇ Descargar PDF</a></header>
-<div class="wrap"><nav><div class="sb"><input id="q" type="search" placeholder="Buscar en el documento…" aria-label="Buscar en todo el documento"><button id="prev" type="button" title="Anterior" aria-label="Resultado anterior">↑</button><button id="next" type="button" title="Siguiente (Intro)" aria-label="Resultado siguiente">↓</button></div><div id="cnt" aria-live="polite"></div><div id="idx">
+<h1>Plan Anual · Curso 2026–2027</h1><p>CIFP Villa de Agüimes</p><p>Consejería de Educación, Formación Profesional, Actividad Física y Deportes</p><a class="pdfbtn" href="#" onclick="window.print();return false" title="Se abrirá el diálogo de impresión: elige Guardar como PDF">⬇ Descargar PDF</a></header><div class="searchbar" role="search"><div class="in"><div class="fld"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b5878" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><input id="q" type="search" placeholder="Buscar en el documento…" aria-label="Buscar en todo el documento"></div><div id="cnt" aria-live="polite"></div><button id="prev" type="button" title="Anterior" aria-label="Coincidencia anterior">↑</button><button id="next" type="button" title="Siguiente (Intro)" aria-label="Coincidencia siguiente">↓</button></div></div>
+<div class="wrap"><nav><div id="idx">
 <a class="l1" href="#s2">1. MARCO NORMATIVO Y CARACTERÍSTICAS DEL PLAN ANUAL</a>
 <a class="l2" href="#s4">Equipo Directivo del Centro</a>
 <a class="l2" href="#s5">Datos Generales de la Comunidad Educativa</a>
@@ -474,7 +482,7 @@ footer{text-align:center;color:#667;font-size:.85rem;padding:1.5rem}
 <script>
 (function(){
 var q=document.getElementById('q'),cnt=document.getElementById('cnt'),main=document.querySelector('main'),
-links=[].slice.call(document.querySelectorAll('#idx a')),marks=[],cur=-1,timer;
+links=[].slice.call(document.querySelectorAll('#idx a')),marks=[],cur=-1,secs=0,timer;
 function norm(t){var o='';for(var i=0;i<t.length;i++){var c=t[i].normalize('NFD')[0];o+=c.toLowerCase()}return o}
 function clear(){marks.forEach(function(m){var p=m.parentNode;p.replaceChild(document.createTextNode(m.textContent),m);p.normalize()});marks=[];cur=-1}
 function run(){
@@ -494,13 +502,13 @@ function run(){
  var ids={};
  var heads=[].slice.call(main.querySelectorAll('h2[id],h3[id]'));
  marks.forEach(function(m){var last=null;for(var i=0;i<heads.length;i++){if(heads[i].compareDocumentPosition(m)&Node.DOCUMENT_POSITION_FOLLOWING)last=heads[i];else break}if(last)ids['#'+last.id]=1});
- links.forEach(function(a){a.style.display=(ids[a.getAttribute('href')]||norm(a.textContent).indexOf(v)>-1)?'':'none'});
+ secs=Object.keys(ids).length;links.forEach(function(a){a.style.display=(ids[a.getAttribute('href')]||norm(a.textContent).indexOf(v)>-1)?'':'none'});
  if(marks.length){go(0)}else cnt.textContent='Sin resultados'}
 function go(i){
  if(!marks.length)return;if(cur>-1)marks[cur].classList.remove('cur');
  cur=(i+marks.length)%marks.length;var m=marks[cur];m.classList.add('cur');
  m.scrollIntoView({block:'center',behavior:'smooth'});
- cnt.textContent=(cur+1)+' de '+marks.length+' resultados'}
+ cnt.textContent=(cur+1)+' de '+marks.length+' coincidencias en '+secs+' apartado'+(secs>1?'s':'')}
 q.addEventListener('input',function(){clearTimeout(timer);timer=setTimeout(run,250)});
 q.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();marks.length?go(cur+(e.shiftKey?-1:1)):run()}});
 document.getElementById('next').addEventListener('click',function(){go(cur+1)});
