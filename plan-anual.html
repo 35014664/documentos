@@ -23,13 +23,20 @@ table{border-collapse:collapse;width:100%;font-size:.88rem}
 th{background:var(--navy);color:#fff;padding:.45rem .6rem;text-align:center}
 td{border:1px solid var(--line);padding:.4rem .6rem;vertical-align:top;text-align:justify}
 tbody tr:nth-child(even){background:#f2f4f8}
+nav .sb{display:flex;gap:.3rem;align-items:center;margin-bottom:.5rem}nav .sb input{margin:0;flex:1}
+nav .sb button{border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:6px;padding:.3rem .5rem;cursor:pointer;font:inherit;line-height:1}
+nav .sb button:hover{background:#eef1f6}#cnt{font-size:.8rem;color:var(--blue);margin:-.2rem 0 .5rem;min-height:1.1em}
+mark.hit{background:#ffe58a;color:inherit;padding:0 1px;border-radius:2px}mark.hit.cur{background:#f5a623;outline:2px solid #c77d00}
+.pdfbtn{display:inline-block;margin-top:.8rem;padding:.35rem .8rem;border:1px solid #fff;border-radius:6px;color:#fff;text-decoration:none;font:.85rem/1.2 Georgia,serif;opacity:.9}
+.pdfbtn:hover{background:#fff;color:var(--navy);opacity:1}
+@media print{.pdfbtn,#cnt,.sb{display:none}mark.hit{background:none}}
 footer{text-align:center;color:#667;font-size:.85rem;padding:1.5rem}
 @media(max-width:860px){.wrap{flex-direction:column}nav{position:static;flex:none;width:100%;max-height:260px}main{padding:1rem}}
 @media print{nav,header img{display:none}.wrap{display:block}}
 </style></head><body>
 <header><img src="https://www3.gobiernodecanarias.org/medusa/edublog/cifpvilladeaguimes/wp-content/uploads/sites/706/2024/01/cropped-logovilla250.png" alt="Logotipo del CIFP Villa de Agüimes">
-<h1>Plan Anual · Curso 2026–2027</h1><p>CIFP Villa de Agüimes</p><p>Consejería de Educación, Formación Profesional, Actividad Física y Deportes</p></header>
-<div class="wrap"><nav><input id="q" type="search" placeholder="Buscar en el índice…" aria-label="Buscar en el índice"><div id="idx">
+<h1>Plan Anual · Curso 2026–2027</h1><p>CIFP Villa de Agüimes</p><p>Consejería de Educación, Formación Profesional, Actividad Física y Deportes</p><a class="pdfbtn" href="#" onclick="window.print();return false" title="Se abrirá el diálogo de impresión: elige Guardar como PDF">⬇ Descargar PDF</a></header>
+<div class="wrap"><nav><div class="sb"><input id="q" type="search" placeholder="Buscar en el documento…" aria-label="Buscar en todo el documento"><button id="prev" type="button" title="Anterior" aria-label="Resultado anterior">↑</button><button id="next" type="button" title="Siguiente (Intro)" aria-label="Resultado siguiente">↓</button></div><div id="cnt" aria-live="polite"></div><div id="idx">
 <a class="l1" href="#s2">1. MARCO NORMATIVO Y CARACTERÍSTICAS DEL PLAN ANUAL</a>
 <a class="l2" href="#s4">Equipo Directivo del Centro</a>
 <a class="l2" href="#s5">Datos Generales de la Comunidad Educativa</a>
@@ -465,5 +472,38 @@ footer{text-align:center;color:#667;font-size:.85rem;padding:1.5rem}
 </main></div>
 <footer>CIFP Villa de Agüimes · C/ Alcorac, 50 · 35118 Agüimes · www.cifpvilladeaguimes.es</footer>
 <script>
-document.getElementById('q').addEventListener('input',function(){var v=this.value.toLowerCase();document.querySelectorAll('#idx a').forEach(function(a){a.style.display=a.textContent.toLowerCase().indexOf(v)>-1?'':'none'})});
+(function(){
+var q=document.getElementById('q'),cnt=document.getElementById('cnt'),main=document.querySelector('main'),
+links=[].slice.call(document.querySelectorAll('#idx a')),marks=[],cur=-1,timer;
+function norm(t){var o='';for(var i=0;i<t.length;i++){var c=t[i].normalize('NFD')[0];o+=c.toLowerCase()}return o}
+function clear(){marks.forEach(function(m){var p=m.parentNode;p.replaceChild(document.createTextNode(m.textContent),m);p.normalize()});marks=[];cur=-1}
+function run(){
+ clear();var v=norm(q.value.trim());
+ links.forEach(function(a){a.style.display=''});
+ if(v.length<2){cnt.textContent=q.value.trim()?'Escribe al menos 2 letras':'';return}
+ var w=document.createTreeWalker(main,NodeFilter.SHOW_TEXT,null),nodes=[],n;
+ while(n=w.nextNode()){if(n.nodeValue.trim())nodes.push(n)}
+ nodes.forEach(function(t){
+  var txt=t.nodeValue,nt=norm(txt),pos=nt.indexOf(v);if(pos<0)return;
+  var f=document.createDocumentFragment(),last=0;
+  while(pos>-1){
+   f.appendChild(document.createTextNode(txt.slice(last,pos)));
+   var m=document.createElement('mark');m.className='hit';m.textContent=txt.slice(pos,pos+v.length);f.appendChild(m);marks.push(m);
+   last=pos+v.length;pos=nt.indexOf(v,last)}
+  f.appendChild(document.createTextNode(txt.slice(last)));t.parentNode.replaceChild(f,t)});
+ var ids={};
+ var heads=[].slice.call(main.querySelectorAll('h2[id],h3[id]'));
+ marks.forEach(function(m){var last=null;for(var i=0;i<heads.length;i++){if(heads[i].compareDocumentPosition(m)&Node.DOCUMENT_POSITION_FOLLOWING)last=heads[i];else break}if(last)ids['#'+last.id]=1});
+ links.forEach(function(a){a.style.display=(ids[a.getAttribute('href')]||norm(a.textContent).indexOf(v)>-1)?'':'none'});
+ if(marks.length){go(0)}else cnt.textContent='Sin resultados'}
+function go(i){
+ if(!marks.length)return;if(cur>-1)marks[cur].classList.remove('cur');
+ cur=(i+marks.length)%marks.length;var m=marks[cur];m.classList.add('cur');
+ m.scrollIntoView({block:'center',behavior:'smooth'});
+ cnt.textContent=(cur+1)+' de '+marks.length+' resultados'}
+q.addEventListener('input',function(){clearTimeout(timer);timer=setTimeout(run,250)});
+q.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();marks.length?go(cur+(e.shiftKey?-1:1)):run()}});
+document.getElementById('next').addEventListener('click',function(){go(cur+1)});
+document.getElementById('prev').addEventListener('click',function(){go(cur-1)});
+})();
 </script></body></html>
