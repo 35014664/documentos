@@ -350,4 +350,21 @@ window.addEventListener('hashchange',fromHash);
 lay();req();fromHash();
 })();
 </script>
+<script>
+(function () {
+  if (window.self === window.top) return; // solo actúa dentro de un iframe
+  Element.prototype.scrollIntoView = function (opt) {
+    opt = opt || {};
+    var r = this.getBoundingClientRect();
+    var y = window.pageYOffset + r.top;
+    if (opt.block === 'center') {
+      y -= (window.innerHeight - r.height) / 2;
+    } else {
+      var cs = getComputedStyle(this);
+      y -= parseInt(cs.scrollMarginTop, 10) || 0;
+    }
+    window.scrollTo({ top: Math.max(0, y), behavior: opt.behavior === 'smooth' ? 'smooth' : 'auto' });
+  };
+})();
+</script>
 </body></html>
